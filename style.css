@@ -5,15 +5,34 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-image: url('background.jpg'); /* Tambahkan background gambar */
+    background-size: cover;
+    background-position: center;
 }
 
 .game-container {
     text-align: center;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+}
+
+#click-area {
+    display: none;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+#click-image {
+    width: 150px;
+    height: 150px;
+    transition: transform 0.1s ease-in-out;
+}
+
+#click-image:active {
+    transform: scale(0.9);
 }
 
 button {
@@ -23,12 +42,14 @@ button {
     cursor: pointer;
     border: none;
     border-radius: 5px;
+    background-color: #3498db;
+    color: white;
 }
 
 button:hover {
-    background-color: #ddd;
+    background-color: #2980b9;
 }
 
-#click-button {
-    display: none;
+#start-button {
+    display: block;
 }
