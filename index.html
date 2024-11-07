@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tap Play Game</title>
-  <link rel="stylesheet" href="style.css"> <!-- Menghubungkan ke style.css -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nirvana Staking App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="game-container">
-    <h1>Tap Play Game</h1>
-    <p>Score: <span id="score">0</span></p> <!-- Skor yang ditampilkan -->
-    <img class="click-image" src="StellarToken.png" alt="Click me!"> <!-- Gambar yang dapat diklik -->
-  </div>
-
-  <script src="script.js"></script> <!-- Menghubungkan ke script.js -->
+    <div class="container">
+        <h1>Nirvana Staking App</h1>
+        <button id="connectWallet">ðŸ”— Connect Wallet</button>
+        <button id="stakeBtn">ðŸ“ˆ Stake</button>
+        <button id="claimRewardBtn">ðŸ’° Claim Reward</button>
+        <button id="clickBtn" class="big-emoji">ðŸ˜Š Click for Bonus!</button>
+        <div id="status"></div>
+    </div>
+    <script src="web3.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
