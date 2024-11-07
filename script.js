@@ -1,4 +1,4 @@
-let score = 0;
+let score = 0; // Variabel untuk menyimpan skor
 
 // Ambil elemen untuk menampilkan skor
 const scoreElement = document.getElementById("score");
