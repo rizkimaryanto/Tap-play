@@ -1,55 +1,65 @@
+/* Reset default margin dan padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set body dengan background dan teks terpusat */
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-image: url('background.jpg'); /* Tambahkan background gambar */
-    background-size: cover;
-    background-position: center;
+  background-image: url('background.jpg'); /* Pastikan file background.jpg berada di folder yang sama */
+  background-size: cover; /* Memastikan background mengisi seluruh layar */
+  background-position: center; /* Memusatkan background */
+  background-attachment: fixed; /* Membuat background tetap saat halaman di-scroll */
+  font-family: Arial, sans-serif; /* Menentukan font */
+  color: white; /* Warna teks */
+  height: 100vh; /* Memastikan body mengambil seluruh tinggi layar */
+  display: flex; /* Gunakan flexbox untuk pusatkan elemen */
+  justify-content: center; /* Pusatkan konten secara horizontal */
+  align-items: center; /* Pusatkan konten secara vertikal */
+  flex-direction: column; /* Atur elemen dalam kolom */
 }
 
+/* Game container, tempat untuk teks dan gambar klik */
 .game-container {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 350px;
+  text-align: center; /* Mengatur teks agar berada di tengah */
+  background: rgba(0, 0, 0, 0.5); /* Tambahkan latar belakang semi-transparan untuk konten */
+  padding: 30px;
+  border-radius: 10px; /* Membuat sudut rounded pada container */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7); /* Tambahkan bayangan untuk memberikan efek depth */
 }
 
-#click-area {
-    display: none;
-    margin: 20px 0;
-    cursor: pointer;
+/* Judul game */
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #FFD700; /* Warna emas */
 }
 
-#click-image {
-    width: 150px;
-    height: 150px;
-    transition: transform 0.1s ease-in-out;
+/* Skor text */
+p {
+  font-size: 1.5em;
+  margin-bottom: 20px;
 }
 
-#click-image:active {
-    transform: scale(0.9);
+/* Gambar yang diklik */
+.click-image {
+  cursor: pointer;
+  width: 200px; /* Menyesuaikan ukuran gambar */
+  height: auto;
+  border-radius: 10px; /* Rounded corners untuk gambar */
+  transition: transform 0.2s ease-in-out; /* Efek transisi saat gambar diklik */
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #3498db;
-    color: white;
+/* Efek saat gambar diklik */
+.click-image:active {
+  transform: scale(0.9); /* Memperkecil gambar saat diklik */
 }
 
-button:hover {
-    background-color: #2980b9;
-}
-
-#start-button {
-    display: block;
+/* Style untuk skor yang ditampilkan */
+#score {
+  font-weight: bold;
+  font-size: 2em;
+  color: #FFD700; /* Warna skor emas */
 }
