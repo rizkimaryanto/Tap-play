@@ -4,11 +4,12 @@ let timerInterval;
 
 const scoreDisplay = document.getElementById('score');
 const timerDisplay = document.getElementById('timer');
-const clickButton = document.getElementById('click-button');
+const clickArea = document.getElementById('click-area');
+const clickImage = document.getElementById('click-image');
 const startButton = document.getElementById('start-button');
 
 startButton.addEventListener('click', startGame);
-clickButton.addEventListener('click', incrementScore);
+clickImage.addEventListener('click', incrementScore);
 
 function startGame() {
     score = 0;
@@ -16,7 +17,7 @@ function startGame() {
     scoreDisplay.textContent = score;
     timerDisplay.textContent = `Waktu Tersisa: ${timeLeft} Detik`;
 
-    clickButton.style.display = 'inline-block';
+    clickArea.style.display = 'block';
     startButton.style.display = 'none';
 
     timerInterval = setInterval(updateTimer, 1000);
@@ -35,10 +36,16 @@ function updateTimer() {
 function incrementScore() {
     score++;
     scoreDisplay.textContent = score;
+
+    // Tambahkan efek klik (misalnya efek getar atau perubahan warna)
+    clickImage.style.transform = 'scale(1.1)';
+    setTimeout(() => {
+        clickImage.style.transform = 'scale(1)';
+    }, 100);
 }
 
 function endGame() {
-    clickButton.style.display = 'none';
-    startButton.style.display = 'inline-block';
+    clickArea.style.display = 'none';
+    startButton.style.display = 'block';
     alert(`Waktu Habis! Skor Akhir Anda: ${score}`);
 }
