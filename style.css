@@ -1,60 +1,41 @@
-/* Reset default margin dan padding */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Set body dengan background */
 body {
-  background-image: url('bg.jpg'); /* Gambar latar belakang */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  font-family: Arial, sans-serif;
-  color: white;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
 }
 
-/* Container untuk game */
-.game-container {
-  text-align: center;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
+.container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  font-weight: bold;
-  color: #FFD700;
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6200ea;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
 }
 
-p {
-  font-size: 1.5em;
-  margin-bottom: 20px;
+button:hover {
+    background-color: #3700b3;
 }
 
-.click-image {
-  cursor: pointer;
-  width: 200px;
-  height: auto;
-  border-radius: 10px;
-  transition: transform 0.2s ease-in-out;
-}
-
-.click-image:active {
-  transform: scale(0.9);
-}
-
-#score {
-  font-weight: bold;
-  font-size: 2em;
-  color: #FFD700;
+.big-emoji {
+    font-size: 4em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
