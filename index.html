@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Klik Koin</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+</head>
+<body>
+    <h1>Game Klik Koin</h1>
+    <button onclick="claimReward()">Klaim Reward</button>
+
+    <script>
+        // Inisialisasi Web3 dan koneksi ke Polygon melalui Infura
+        const infuraUrl = "https://polygon-mainnet.infura.io/v3/4b83836820944bf0bba486179ee4dbfd";
+        const web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+
+        // ABI dan alamat kontrak
+        const contractABI = [
+            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"rewardAmount","type":"uint256"}],"name":"AirdropDistributed","type":"event"},
+            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"RewardAccumulated","type":"event"},
+            {"inputs":[],"name":"accumulateReward","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"airdropDate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"airdropDistributed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"distributeAirdrop","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"participants","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"rewardPerClick","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"rewardsAccumulated","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+        ];
+        const contractAddress = "0xd863ba508ce896960D2a885eAFD84Bb5179B1f5D";
+
+        // Inisialisasi kontrak
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+        // Fungsi untuk mengklaim reward
+        async function claimReward() {
+            // Meminta akses akun dari dompet
+            if (window.ethereum) {
+                try {
+                    await ethereum.request({ method: 'eth_requestAccounts' });
+                    const accounts = await web3.eth.getAccounts();
+                    const userAccount = accounts[0];
+
+                    // Panggil fungsi accumulateReward di smart contract
+                    contract.methods.accumulateReward().send({ from: userAccount })
+                        .on('transactionHash', function(hash) {
+                            console.log("Transaksi berhasil dikirim. Hash: ", hash);
+                        })
+                        .on('receipt', function(receipt) {
+                            console.log("Transaksi berhasil dengan receipt: ", receipt);
+                            alert("Reward berhasil diklaim!");
+                        })
+                        .on('error', function(error, receipt) {
+                            console.error("Error pada transaksi: ", error);
+                            alert("Transaksi gagal. Coba lagi.");
+                        });
+                } catch (error) {
+                    console.error("User menolak akses akun:", error);
+                }
+            } else {
+                alert("Ethereum browser (MetaMask) diperlukan untuk melakukan transaksi.");
+            }
+        }
+    </script>
+</body>
+</html>
