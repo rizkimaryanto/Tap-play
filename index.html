@@ -3,70 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Klik Koin</title>
+    <title>Check Airdrop Status</title>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
 <body>
-    <h1>Game Klik Koin</h1>
-    <button onclick="claimReward()">Klaim Reward</button>
+    <h1>Check Airdrop Status</h1>
+    <button onclick="checkAirdropStatus()">Check Airdrop Status</button>
 
     <script>
-        // Cek apakah MetaMask tersedia
-        if (typeof window.ethereum !== 'undefined') {
-            // Menggunakan MetaMask sebagai provider Web3
-            var web3 = new Web3(window.ethereum);
-        } else {
-            alert("MetaMask diperlukan untuk melanjutkan.");
-        }
-
-        // ABI dan alamat kontrak
-        const contractABI = [
-            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"rewardAmount","type":"uint256"}],"name":"AirdropDistributed","type":"event"},
-            {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"RewardAccumulated","type":"event"},
-            {"inputs":[],"name":"accumulateReward","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"airdropDate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"airdropDistributed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"distributeAirdrop","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"participants","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"rewardPerClick","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"rewardsAccumulated","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
-        ];
+        // Masukkan URL Infura dan alamat kontrak di sini
+        const infuraUrl = "https://polygon-mainnet.infura.io/v3/4b83836820944bf0bba486179ee4dbfd";
         const contractAddress = "0xd863ba508ce896960D2a885eAFD84Bb5179B1f5D";
+        const abi = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"rewardAmount","type":"uint256"}],"name":"AirdropDistributed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"RewardAccumulated","type":"event"},{"inputs":[],"name":"accumulateReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"airdropDate","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"airdropDistributed","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"distributeAirdrop","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"participants","outputs":[{"internalType":"address","name":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"rewardPerClick","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"rewardsAccumulated","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
 
-        // Inisialisasi kontrak
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        // Menghubungkan ke kontrak
+        const web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+        const contract = new web3.eth.Contract(abi, contractAddress);
 
-        // Fungsi untuk mengklaim reward
-        async function claimReward() {
+        async function checkAirdropStatus() {
             try {
-                // Meminta akses akun dari dompet
-                await ethereum.request({ method: 'eth_requestAccounts' });
-                const accounts = await web3.eth.getAccounts();
-                const userAccount = accounts[0];
+                // Mendapatkan waktu airdrop dalam format timestamp
+                const airdropDate = await contract.methods.airdropDate().call();
+                const airdropDistributed = await contract.methods.airdropDistributed().call();
 
-                // Panggil fungsi accumulateReward di smart contract
-                contract.methods.accumulateReward().send({ from: userAccount })
-                    .on('transactionHash', function(hash) {
-                        console.log("Transaksi berhasil dikirim. Hash: ", hash);
-                    })
-                    .on('receipt', function(receipt) {
-                        console.log("Transaksi berhasil dengan receipt: ", receipt);
-                        alert("Reward berhasil diklaim!");
-                    })
-                    .on('error', function(error, receipt) {
-                        console.error("Error pada transaksi: ", error);
-                        alert("Transaksi gagal. Coba lagi.");
-                    });
+                // Konversi waktu ke format yang mudah dibaca
+                const date = new Date(airdropDate * 1000);
+                const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+
+                alert(`Tanggal Airdrop: ${dateString}\nStatus Airdrop: ${airdropDistributed ? "Sudah didistribusikan" : "Belum didistribusikan"}`);
             } catch (error) {
-                console.error("User menolak akses akun:", error);
-                alert("Akses akun diperlukan untuk melanjutkan.");
+                console.error("Gagal memeriksa status airdrop:", error);
             }
         }
     </script>
