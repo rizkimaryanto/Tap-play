@@ -11,9 +11,13 @@
     <button onclick="claimReward()">Klaim Reward</button>
 
     <script>
-        // Inisialisasi Web3 dan koneksi ke Polygon melalui Infura
-        const infuraUrl = "https://polygon-mainnet.infura.io/v3/4b83836820944bf0bba486179ee4dbfd";
-        const web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+        // Cek apakah MetaMask tersedia
+        if (typeof window.ethereum !== 'undefined') {
+            // Menggunakan MetaMask sebagai provider Web3
+            var web3 = new Web3(window.ethereum);
+        } else {
+            alert("MetaMask diperlukan untuk melanjutkan.");
+        }
 
         // ABI dan alamat kontrak
         const contractABI = [
@@ -41,31 +45,28 @@
 
         // Fungsi untuk mengklaim reward
         async function claimReward() {
-            // Meminta akses akun dari dompet
-            if (window.ethereum) {
-                try {
-                    await ethereum.request({ method: 'eth_requestAccounts' });
-                    const accounts = await web3.eth.getAccounts();
-                    const userAccount = accounts[0];
+            try {
+                // Meminta akses akun dari dompet
+                await ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const userAccount = accounts[0];
 
-                    // Panggil fungsi accumulateReward di smart contract
-                    contract.methods.accumulateReward().send({ from: userAccount })
-                        .on('transactionHash', function(hash) {
-                            console.log("Transaksi berhasil dikirim. Hash: ", hash);
-                        })
-                        .on('receipt', function(receipt) {
-                            console.log("Transaksi berhasil dengan receipt: ", receipt);
-                            alert("Reward berhasil diklaim!");
-                        })
-                        .on('error', function(error, receipt) {
-                            console.error("Error pada transaksi: ", error);
-                            alert("Transaksi gagal. Coba lagi.");
-                        });
-                } catch (error) {
-                    console.error("User menolak akses akun:", error);
-                }
-            } else {
-                alert("Ethereum browser (MetaMask) diperlukan untuk melakukan transaksi.");
+                // Panggil fungsi accumulateReward di smart contract
+                contract.methods.accumulateReward().send({ from: userAccount })
+                    .on('transactionHash', function(hash) {
+                        console.log("Transaksi berhasil dikirim. Hash: ", hash);
+                    })
+                    .on('receipt', function(receipt) {
+                        console.log("Transaksi berhasil dengan receipt: ", receipt);
+                        alert("Reward berhasil diklaim!");
+                    })
+                    .on('error', function(error, receipt) {
+                        console.error("Error pada transaksi: ", error);
+                        alert("Transaksi gagal. Coba lagi.");
+                    });
+            } catch (error) {
+                console.error("User menolak akses akun:", error);
+                alert("Akses akun diperlukan untuk melanjutkan.");
             }
         }
     </script>
